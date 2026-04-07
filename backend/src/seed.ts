@@ -6,17 +6,17 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding initial Faculty and Admin accounts...');
 
-  const password = await bcrypt.hash('password123', 10);
+  const password = await bcrypt.hash('admin@123', 10);
 
   // Seed a Super Admin if not exists
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@wellzen.edu' },
+    where: { email: 'admin@wellzen.com' },
     update: {},
     create: {
       name: 'System Administrator',
-      email: 'admin@wellzen.edu',
+      email: 'admin@wellzen.com',
       password: password,
-      role: 'ADMIN',
+      role: 'SUPER_ADMIN',
     },
   });
 
@@ -49,7 +49,7 @@ async function main() {
   console.log('Admin:', admin.email);
   console.log('Faculty (Receives Urgent Emails):', faculty.email);
   console.log('Counselor (Receives Urgent Emails):', counselor.email);
-  console.log('All passwords are: password123');
+  console.log('All passwords are: admin@123');
 }
 
 main()
