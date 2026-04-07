@@ -56,15 +56,6 @@ app.post('/api/public/trigger-survey', async (req, res) => {
   }
 });
 
-// Serve frontend static files in production
-// Assuming the backend is run from dist/ and relative path to frontend dist/ is ../../dist
-if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
-  app.use(express.static(path.join(__dirname, '../../dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
-  });
-}
-
 // Start Server
 app.listen(PORT, () => {
   console.log(`[Backend] Server is running on port ${PORT}`);
