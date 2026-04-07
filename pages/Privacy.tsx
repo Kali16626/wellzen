@@ -20,7 +20,7 @@ const Privacy: React.FC = () => {
 
             <h2 className="text-2xl font-bold text-slate-700">Data Collection</h2>
             <p className="text-slate-600 leading-relaxed">
-                WellNex collects minimal data required to provide wellness recommendations:
+                WellZen collects minimal data required to provide wellness recommendations:
             </p>
             <ul className="list-disc pl-5 text-slate-600">
                 <li>Student identification (Roll Number, Department)</li>

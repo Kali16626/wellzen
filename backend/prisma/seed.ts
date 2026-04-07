@@ -9,17 +9,17 @@ async function main() {
   const users = [
     {
       name: 'Faculty Counselor',
-      email: 'priyadharshini.k2345@gmail.com',
-      password: 'Priya@2468',
+      email: 'kalivarathan1607@gmail.com',
+      password: 'Rio@devil045',
       role: Role.ADMIN,
-      department: 'Counseling'
+      department: 'AIML'
     },
     {
       name: 'System Administrator',
-      email: 'admin@wellnex.com',
+      email: 'admin@wellzen.com',
       password: 'admin@123',
       role: Role.SUPER_ADMIN,
-      department: 'IT'
+      department: ''
     }
   ];
 
@@ -27,7 +27,7 @@ async function main() {
     const hashedPassword = await bcrypt.hash(u.password, 10);
     await prisma.user.upsert({
       where: { email: u.email },
-      update: { 
+      update: {
         role: u.role,
         password: hashedPassword // Ensure password is also synced/reset to the seeded value
       },

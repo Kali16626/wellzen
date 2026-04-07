@@ -10,11 +10,11 @@ const About: React.FC = () => {
             <i className="fas fa-arrow-left mr-2"></i> Back to Home
         </button>
         
-        <h1 className="text-4xl font-extrabold text-slate-800 mb-6">About WellNex</h1>
+        <h1 className="text-4xl font-extrabold text-slate-800 mb-6">About WellZen</h1>
         
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
             <p className="text-lg font-medium text-slate-700 leading-relaxed">
-                Wellnex – Intelligent Student Wellness & Risk Monitoring System is a full-stack, AI-powered mental health and well-being platform designed to proactively monitor, analyze, and support student wellness within educational institutions.
+                WellZen – Intelligent Student Wellness & Risk Monitoring System is a full-stack, AI-powered mental health and well-being platform designed to proactively monitor, analyze, and support student wellness within educational institutions.
             </p>
             
             <p className="text-slate-600 leading-relaxed">
@@ -47,7 +47,7 @@ const About: React.FC = () => {
             </ul>
             
             <p className="mt-6 font-medium text-indigo-600 leading-relaxed">
-                By combining AI-driven predictive scoring with structured intervention management, Wellnex acts as a proactive, scalable, and data-driven solution for enhancing student mental health support and early risk detection in academic institutions.
+                By combining AI-driven predictive scoring with structured intervention management, WellZen acts as a proactive, scalable, and data-driven solution for enhancing student mental health support and early risk detection in academic institutions.
             </p>
         </div>
       </div>

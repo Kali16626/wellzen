@@ -109,25 +109,25 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
 
     // Send email
-    const subject = 'Reset Your WellNex Password';
-    const text = `Hello ${user.name},\n\nYou requested a password reset for your WellNex account. Please return to the application to set your new password.\n\nBest regards,\nThe WellNex Team`;
+    const subject = 'Reset Your WellZen Password';
+    const text = `Hello ${user.name},\n\nYou requested a password reset for your WellZen account. Please return to the application to set your new password.\n\nBest regards,\nThe WellZen Team`;
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #4f46e5; margin: 0;">WellNex</h1>
+          <h1 style="color: #4f46e5; margin: 0;">WellZen</h1>
           <p style="color: #64748b; font-size: 16px;">Student Wellness & Support</p>
         </div>
         <div style="padding: 20px; color: #1e293b;">
           <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Password Reset Request</h2>
           <p>Hello <strong>${user.name}</strong>,</p>
-          <p>We received a request to reset your password for your WellNex account. Click the button below to set a new password. This link is valid for 15 minutes.</p>
+          <p>We received a request to reset your password for your WellZen account. Click the button below to set a new password. This link is valid for 15 minutes.</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetLink}" style="background-color: #4f46e5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Reset Password</a>
           </div>
           <p style="font-size: 14px; color: #94a3b8;">If you didn't request this, you can safely ignore this email. Your password will remain unchanged.</p>
         </div>
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8; text-align: center;">
-          <p>&copy; ${new Date().getFullYear()} WellNex System. All rights reserved.</p>
+          <p>&copy; ${new Date().getFullYear()} WellZen System. All rights reserved.</p>
         </div>
       </div>
     `;

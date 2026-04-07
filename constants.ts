@@ -1,11 +1,11 @@
 export const ADMIN_CREDENTIALS = {
-  email: 'priyadharshini.k2345@gmail.com',
+  email: 'kalivarathan1607@gmail.com',
   password: 'Priya@2468',
   name: 'Faculty Counselor'
 };
 
 export const SUPER_ADMIN_CREDENTIALS = {
-  email: 'admin@wellnex.com',
+  email: 'admin@wellzen.com',
   password: 'admin@123',
   name: 'System Administrator'
 };

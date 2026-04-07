@@ -53,7 +53,7 @@ export const calculateRisk = async (
     // Send Real Emails to Faculty (Unique only)
     const emailRecipients = new Set<string>();
     for (const member of staff) {
-        const recipientEmail = member.email?.includes('@wellnex.edu') && process.env.EMAIL_USER
+        const recipientEmail = member.email?.includes('@wellzen.edu') && process.env.EMAIL_USER
             ? process.env.EMAIL_USER 
             : member.email;
         if (recipientEmail) emailRecipients.add(recipientEmail);
@@ -62,7 +62,7 @@ export const calculateRisk = async (
     for (const recipientEmail of emailRecipients) {
         const member = staff.find(s => 
             (s.email === recipientEmail) || 
-            (s.email?.includes('@wellnex.edu') && recipientEmail === process.env.EMAIL_USER)
+            (s.email?.includes('@wellzen.edu') && recipientEmail === process.env.EMAIL_USER)
         );
 
         if (recipientEmail && member) {
@@ -73,7 +73,7 @@ export const calculateRisk = async (
              <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #fee2e2; border-radius: 12px; background-color: #ffffff;">
                <div style="text-align: center; margin-bottom: 30px; background-color: #ef4444; padding: 20px; border-radius: 8px 8px 0 0;">
                  <h1 style="color: #ffffff; margin: 0; font-size: 24px;">High Risk Wellness Alert</h1>
-                 <p style="color: #fee2e2; font-size: 14px; margin: 5px 0 0 0;">WellNex Monitoring System</p>
+                 <p style="color: #fee2e2; font-size: 14px; margin: 5px 0 0 0;">WellZen Monitoring System</p>
                </div>
                <div style="padding: 20px; color: #1e293b;">
                  <p>Dear <strong>${member.name}</strong>,</p>
@@ -104,7 +104,7 @@ export const calculateRisk = async (
                  </div>
                </div>
                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8; text-align: center;">
-                 <p>&copy; ${new Date().getFullYear()} WellNex System. This is an automated security alert.</p>
+                 <p>&copy; ${new Date().getFullYear()} WellZen System. This is an automated security alert.</p>
                </div>
              </div>
            `;
@@ -169,3 +169,119 @@ export const calculateOverallWellnessScore = (stressLevel: number, sleepQuality:
     if (score < 0) score = 0;
     return score;
 }
+
+export const triggerCustomAlertEmail = async (studentId: string, studentName: string, studentDept: string, score: number, inputSummary: any, predictionResult: any) => {
+    // Find system counselors/faculty to notify
+    const student = await prisma.user.findUnique({ where: { id: studentId }});
+    const finalStudentName = studentName || student?.name || studentId;
+    const targetDept = (student as any)?.department || studentDept;
+
+    const allStaff = await prisma.user.findMany({
+      where: {
+        role: { in: ['ADMIN', 'FACULTY', 'COUNSELOR'] }
+      }
+    });
+
+    const staff = allStaff.filter(member => 
+        member.department === 'General' || 
+        member.department === 'Counseling' ||
+        member.department === targetDept || 
+        !member.department
+    );
+
+    const emailRecipients = new Set<string>();
+    for (const member of staff) {
+        const recipientEmail = member.email?.includes('@wellzen.edu') && process.env.EMAIL_USER
+            ? process.env.EMAIL_USER 
+            : member.email;
+        if (recipientEmail) emailRecipients.add(recipientEmail);
+    }
+
+    for (const recipientEmail of emailRecipients) {
+        const member = staff.find(s => 
+            (s.email === recipientEmail) || 
+            (s.email?.includes('@wellzen.edu') && recipientEmail === process.env.EMAIL_USER)
+        );
+
+        if (recipientEmail && member) {
+            const subject = `URGENT: High Risk Alert for Student ${finalStudentName}`;
+            
+            // Format Risk factors HTML list
+            const riskFactorsHtml = (predictionResult.riskFactors || []).map((r: any) => 
+                `<li style="margin-bottom: 10px;"><strong>${r.text}</strong><br>
+                <ul style="margin-top: 4px; padding-left: 20px; color: #64748b;">
+                ${r.points ? r.points.map((p: string) => `<li>${p}</li>`).join('') : ''}
+                </ul></li>`
+            ).join('');
+
+            const doingWellHtml = (predictionResult.doingWell || []).map((r: any) => 
+                `<li style="margin-bottom: 10px;"><strong>${r.text}</strong><br>
+                <ul style="margin-top: 4px; padding-left: 20px; color: #64748b;">
+                ${r.points ? r.points.map((p: string) => `<li>${p}</li>`).join('') : ''}
+                </ul></li>`
+            ).join('');
+            
+            const html = `
+             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #fee2e2; border-radius: 12px; background-color: #ffffff;">
+               <div style="text-align: center; margin-bottom: 30px; background-color: #ef4444; padding: 20px; border-radius: 8px 8px 0 0;">
+                 <h1 style="color: #ffffff; margin: 0; font-size: 24px;">High Risk Wellness Alert</h1>
+                 <p style="color: #fee2e2; font-size: 14px; margin: 5px 0 0 0;">WellZen Monitoring System</p>
+               </div>
+               
+               <div style="padding: 20px; color: #1e293b;">
+                 <p>Dear <strong>${member.name}</strong>,</p>
+                 <p style="font-size: 16px; border-left: 4px solid #ef4444; padding-left: 10px;">
+                    This student's well-being score is <strong>${score}/100</strong>. Immediate intervention is recommended.
+                 </p>
+                 
+                  <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
+                   <h3 style="margin-top: 0; color: #64748b; font-size: 12px; text-transform: uppercase;">Input Summary of Student</h3>
+                   <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                     <tr><td style="padding: 4px 0; color: #64748b; width: 40%;">Name:</td><td style="padding: 4px 0; font-weight: 600;">${finalStudentName} (${studentId})</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Study Hours:</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.study}</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Sleep Hours:</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.sleep}</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Attendance:</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.attendance}%</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Stress Level:</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.stress}/10</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Assignment (%):</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.assignment}%</td></tr>
+                     <tr><td style="padding: 4px 0; color: #64748b;">Mood:</td><td style="padding: 4px 0; font-weight: 600;">${inputSummary.mood}</td></tr>
+                   </table>
+                 </div>
+
+                 <div style="background-color: #fff5f5; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #feb2b2;">
+                   <h3 style="margin-top: 0; color: #c53030; font-size: 12px; text-transform: uppercase;">Output Prediction Result</h3>
+                   
+                   <p style="font-size: 14px; margin-bottom: 5px;"><strong>Status:</strong> ${predictionResult.status}</p>
+                   <p style="font-size: 14px; margin-top: 0;"><strong>Stress Source:</strong> ${predictionResult.stressSource} (${predictionResult.stressDesc})</p>
+
+                   ${riskFactorsHtml ? `
+                   <h4 style="color: #ef4444; margin-bottom: 5px; font-size: 14px;">⚠️ Risk Factors</h4>
+                   <ul style="font-size: 13px; margin-top: 0; padding-left: 20px;">
+                      ${riskFactorsHtml}
+                   </ul>` : ''}
+
+                   ${doingWellHtml ? `
+                   <h4 style="color: #10b981; margin-bottom: 5px; font-size: 14px; margin-top: 15px;">✅ Doing Well</h4>
+                   <ul style="font-size: 13px; margin-top: 0; padding-left: 20px;">
+                      ${doingWellHtml}
+                   </ul>` : ''}
+                 </div>
+
+                 <div style="text-align: center; margin-top: 30px;">
+                    <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}" style="background-color: #ef4444; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px;">Open Admin Dashboard</a>
+                 </div>
+               </div>
+               <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8; text-align: center;">
+                 <p>&copy; ${new Date().getFullYear()} WellZen System.</p>
+               </div>
+             </div>
+            `;
+
+            await sendRealEmail(
+                recipientEmail,
+                subject,
+                `High Risk Alert for Student ${finalStudentName}\nScore: ${score}/100.\n\nPlease check the dashboard.`,
+                html
+            );
+        }
+    }
+};

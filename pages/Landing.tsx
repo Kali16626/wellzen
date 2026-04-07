@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Landing: React.FC = () => {
   const navigate = useNavigate();
 
-  const LOGO_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI0UwRTdGRiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTUwIDE1IEM1MCAxNSA4NSA0MCA4NSA2NSBDODUgOTAgNjAgOTUgNTAgOTUgQzQwIDk1IDE1IDkwIDE1IDY1IEMxNSA0MCA1MCAxNSA1MCAxNSBaIiBmaWxsPSIjZWNmZGY1Ii8+CiAgPHBhdGggZD0iTTUwIDIwIEM1MCAyMCA4MCA0NSA4MCA2NSBDODAgODUgNjAgOTUgNTAgOTUgQzNDIDk1IDIwIDg1IDIwIDY1IEMyMCA0NSA1MCAyMCA1MCAyMCBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMxMGI5ODEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI0NSIgcj0iOSIgZmlsbD0iIzQzMzhjYSIvPgogIDxwYXRoIGQ9Ik0zMyA4MCBDMzMgNjUgNDIgNTggNTAgNTggQzU4IDU4IDY3IDY1IDY3IDgwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MzM4Y2EiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPg==";
+  const LOGO_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0icHJpbWFyeSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZjQ2ZTUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2E4NTVmNyIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjZTBlN2ZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNIDUwIDIwIEMgMzUgMjAsIDI4IDM1LCAzMyA0OCBDIDM2IDU1LCA0MCA2MCwgNDIgNjggSCA1OCBDIDYwIDYwLCA2NCA1NSwgNjcgNDggQyA3MiAzNSwgNjUgMjAsIDUwIDIwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNwcmltYXJ5KSIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8cGF0aCBkPSJNIDQzIDcyIEggNTcgTSA0NSA3NyBIIDU1IiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjcHJpbWFyeSkiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTSAzOCA0MCBRIDQ0IDMwIDUwIDQwIFQgNjIgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y1OWUwYiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNIDQwIDQ4IFEgNDUgNDAgNTAgNDggVCA2MCA0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTgiIHI9IjIiIGZpbGw9IiNmNTllMGIiIC8+Cjwvc3ZnPg==";
 
   return (
     <div className="relative min-h-screen bg-surface-50 flex flex-col font-sans text-surface-900 overflow-hidden">
@@ -20,8 +20,8 @@ const Landing: React.FC = () => {
       {/* Navigation Bar */}
       <nav className="glass fixed top-0 w-full z-50 px-6 md:px-12 py-4 flex justify-between items-center bg-white/60">
         <div className="flex items-center gap-3">
-          <img src={LOGO_SRC} alt="WellNex" className="w-10 h-10 object-contain drop-shadow" />
-          <span className="text-xl font-bold tracking-tight text-surface-900">Well<span className="text-primary-600">Nex</span></span>
+          <img src={LOGO_SRC} alt="WellZen" className="w-10 h-10 object-contain drop-shadow" />
+          <span className="text-xl font-bold tracking-tight text-surface-900">Well<span className="text-primary-600">Zen</span></span>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-surface-600">
            <button onClick={() => navigate('/about')} className="hover:text-primary-600 transition-colors">About</button>
@@ -38,7 +38,7 @@ const Landing: React.FC = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
             <img 
               src={LOGO_SRC}
-              alt="WellNex Logo" 
+              alt="WellZen Logo" 
               className="relative w-36 h-36 object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300 bg-white rounded-full p-2"
             />
           </div>
@@ -104,7 +104,7 @@ const Landing: React.FC = () => {
 
         {/* HOW IT WORKS SECTION */}
         <div className="w-full max-w-5xl pt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <h3 className="text-center text-3xl font-bold text-surface-900 mb-16">How WellNex Works</h3>
+            <h3 className="text-center text-3xl font-bold text-surface-900 mb-16">How WellZen Works</h3>
             <div className="grid md:grid-cols-3 gap-12 text-center px-4 relative">
                 {/* Connecting Line */}
                 <div className="hidden md:block absolute top-10 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-primary-200 via-secondary-200 to-accent-200 z-0"></div>
@@ -147,7 +147,7 @@ const Landing: React.FC = () => {
                   <button onClick={() => navigate('/help')} className="hover:text-primary-600 transition-colors">Help</button>
               </div>
               <div className="flex items-center gap-2 font-medium">
-                  WellNex &copy; {new Date().getFullYear()}
+                  WellZen &copy; {new Date().getFullYear()}
               </div>
           </div>
       </footer>

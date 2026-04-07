@@ -39,10 +39,18 @@ app.get('/health', (req, res) => {
 // Decoupled Frontend Trigger Bridge
 app.post('/api/public/trigger-survey', async (req, res) => {
   try {
-    const { studentId, studentName, studentDept, stressLevel, sleepQuality, academicPressure } = req.body;
-    // Calculate risk triggers the email loop if stress > 7
-    const riskScore = await calculateRisk(studentId, stressLevel, sleepQuality, academicPressure, studentName, studentDept);
-    res.status(200).json({ message: 'Triggered successfully', riskScore });
+    const { studentId, studentName, studentDept, score, inputSummary, predictionResult, stressLevel } = req.body;
+    
+    if (score !== undefined) {
+      // New customized single email format
+      const riskService = await import('./services/risk.service.js');
+      await riskService.triggerCustomAlertEmail(studentId, studentName, studentDept, score, inputSummary, predictionResult);
+      res.status(200).json({ message: 'High risk email triggered', riskScore: score });
+    } else {
+      // Legacy format fallback
+      const riskScore = await calculateRisk(studentId, stressLevel, req.body.sleepQuality, req.body.academicPressure, studentName, studentDept);
+      res.status(200).json({ message: 'Triggered successfully', riskScore });
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

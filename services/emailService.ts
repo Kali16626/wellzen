@@ -14,7 +14,7 @@ export interface EmailLog {
     status: 'SENT' | 'FAILED';
 }
 
-const EMAIL_STORAGE_KEY = 'wellnex_sent_emails';
+const EMAIL_STORAGE_KEY = 'wellzen_sent_emails';
 
 export const sendEmail = (to: string, subject: string, body: string): boolean => {
     try {
@@ -44,14 +44,31 @@ export const sendEmail = (to: string, subject: string, body: string): boolean =>
 };
 
 export const getSentEmails = (): EmailLog[] => {
-    return JSON.parse(localStorage.getItem(EMAIL_STORAGE_KEY) || '[]');
+    const raw = localStorage.getItem(EMAIL_STORAGE_KEY) || '[]';
+    let emails: EmailLog[] = JSON.parse(raw);
+    let updated = false;
+    
+    // Migrate old logs from priyadharshini to kalivarathan
+    emails = emails.map(e => {
+        if (e.to === 'priyadharshini.k2345@gmail.com') {
+            updated = true;
+            return { ...e, to: 'kalivarathan1607@gmail.com' };
+        }
+        return e;
+    });
+    
+    if (updated) {
+        localStorage.setItem(EMAIL_STORAGE_KEY, JSON.stringify(emails));
+    }
+    
+    return emails;
 };
 
 // --- Alert Logic ---
 
 export const checkAndSendHighRiskAlert = (student: StudentProfile, survey: WellnessSurvey) => {
     // Check if an alert was already sent for this specific survey entry to prevent duplication
-    const sentAlertIds: string[] = JSON.parse(localStorage.getItem('wellnex_sent_alert_ids') || '[]');
+    const sentAlertIds: string[] = JSON.parse(localStorage.getItem('wellzen_sent_alert_ids') || '[]');
     if (sentAlertIds.includes(survey.id)) {
         return false;
     }
@@ -61,12 +78,12 @@ export const checkAndSendHighRiskAlert = (student: StudentProfile, survey: Welln
                        (survey.stressLevel >= 8 && survey.academicPressure >= 8 && survey.sleepQuality < 2);
 
     if (isHighRisk) {
-        const facultyEmail = "priyadharshini.k2345@gmail.com"; 
+        const facultyEmail = "kalivarathan1607@gmail.com"; 
         const subject = `URGENT: High Risk Alert for Student ${student.name} (${student.rollNumber})`;
         const body = `
             Dear Faculty Advisor,
 
-            This is an automated alert from the WellNex System.
+            This is an automated alert from the WellZen System.
 
             Student: ${student.name}
             Roll Number: ${student.rollNumber}
@@ -82,13 +99,13 @@ export const checkAndSendHighRiskAlert = (student: StudentProfile, survey: Welln
             Immediate intervention or counseling referral is recommended.
 
             Regards,
-            WellNex Intelligent System
+            WellZen Intelligent System
         `;
 
         const sent = sendEmail(facultyEmail, subject, body);
         if (sent) {
             sentAlertIds.push(survey.id);
-            localStorage.setItem('wellnex_sent_alert_ids', JSON.stringify(sentAlertIds));
+            localStorage.setItem('wellzen_sent_alert_ids', JSON.stringify(sentAlertIds));
         }
         return true;
     }

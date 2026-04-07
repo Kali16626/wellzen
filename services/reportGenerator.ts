@@ -21,7 +21,7 @@ const addHeader = (doc: jsPDF, title: string, subTitle?: string) => {
     // Title
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
-    doc.text("WellNex", 35, 20);
+    doc.text("WellZen", 35, 20);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
     doc.text("Intelligent Student Wellness System", 35, 28);
@@ -172,7 +172,7 @@ export const generateStudentReport = (student: StudentProfile, surveys: Wellness
     }
 
     addFooter(doc);
-    doc.save(`WellNex_Student_Report_${student.rollNumber}.pdf`);
+    doc.save(`WellZen_Student_Report_${student.rollNumber}.pdf`);
 };
 
 // --- Admin System Report ---
@@ -241,5 +241,5 @@ export const generateSystemReport = (
     });
 
     addFooter(doc);
-    doc.save(`WellNex_Institutional_Report_${new Date().toISOString().split('T')[0]}.pdf`);
+    doc.save(`WellZen_Institutional_Report_${new Date().toISOString().split('T')[0]}.pdf`);
 };

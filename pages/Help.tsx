@@ -36,7 +36,7 @@ const Help: React.FC = () => {
                 <h2 className="text-2xl font-bold text-slate-700 mb-4">Contact Support</h2>
                 <p className="text-slate-600 mb-4">Need further assistance or want to report a bug? Reach out to our technical team.</p>
                 <div className="flex items-center space-x-4">
-                    <a href="mailto:wellnex@gmail.com?subject=Support Request - WellNex Platform" className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
+                    <a href="mailto:wellzen@gmail.com?subject=Support Request - WellZen Platform" className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
                         <i className="fas fa-envelope mr-2"></i> Email Support
                     </a>
                 </div>

@@ -115,7 +115,7 @@ const StudentDashboard: React.FC = () => {
           checkCriticalCondition(currentUser, latest);
           
           // Check Dismissal
-          const dismissedId = localStorage.getItem('wellnex_dismissed_risk_id');
+          const dismissedId = localStorage.getItem('wellzen_dismissed_risk_id');
           if (data.length > 0 && data[0].id === dismissedId) {
               setIsDismissed(true);
           }
@@ -176,7 +176,7 @@ const StudentDashboard: React.FC = () => {
   const handleDismissRisk = () => {
     setIsDismissed(true);
     if (surveys.length > 0) {
-        localStorage.setItem('wellnex_dismissed_risk_id', surveys[0].id);
+        localStorage.setItem('wellzen_dismissed_risk_id', surveys[0].id);
     }
   };
 

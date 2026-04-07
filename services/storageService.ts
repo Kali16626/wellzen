@@ -5,7 +5,7 @@ import { STORAGE_KEYS, ADMIN_CREDENTIALS } from '../constants';
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export const fetchWithAuth = async (endpoint: string, options: RequestInit = {}) => {
-  const token = localStorage.getItem('wellnex_token');
+  const token = localStorage.getItem('wellzen_token');
   const headers = {
     'Content-Type': 'application/json',
     ...(token && { 'Authorization': `Bearer ${token}` }),
@@ -514,7 +514,7 @@ export const getStudentNotifications = (rollNumber: string): SystemNotification[
   return notifs.filter(n => n.studentRollNumber === rollNumber).reverse();
 };
 
-export const sendHighRiskEmailAlert = (student: StudentProfile, survey: WellnessSurvey) => {
+export const sendHighRiskEmailAlert = (student: StudentProfile, surveyForm: any, prediction: any) => {
   // 1. Local Notification
   sendSystemNotification(
     student.rollNumber, 
@@ -522,7 +522,7 @@ export const sendHighRiskEmailAlert = (student: StudentProfile, survey: Wellness
     "ALERT"
   );
 
-  // 2. Backend Email Trigger
+  // 2. Backend Email Trigger with Custom Single Mail format
   fetch(`${API_BASE_URL}/public/trigger-survey`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -530,12 +530,26 @@ export const sendHighRiskEmailAlert = (student: StudentProfile, survey: Wellness
       studentId: student.rollNumber,
       studentName: student.name,
       studentDept: student.department || 'General',
-      stressLevel: survey.stressLevel,
-      sleepQuality: survey.sleepQuality,
-      academicPressure: survey.academicPressure
+      score: prediction.score,
+      inputSummary: {
+          study: surveyForm.study,
+          attendance: surveyForm.attendance,
+          sleep: surveyForm.sleep,
+          stress: surveyForm.stress,
+          assignment: surveyForm.assignment,
+          mood: surveyForm.mood
+      },
+      predictionResult: {
+          status: prediction.status,
+          stressSource: prediction.stressSource,
+          stressDesc: prediction.stressDesc,
+          riskFactors: prediction.riskFactors,
+          doingWell: prediction.doingWell,
+          improvements: prediction.improvements
+      }
     })
   }).then(res => {
-    if (res.ok) console.log("✅ High risk email alert triggered on backend");
+    if (res.ok) console.log("✅ High risk single email alert triggered on backend");
     else console.error("❌ Failed to trigger backend email alert");
   }).catch(err => console.error("❌ Network error triggering email:", err));
 };

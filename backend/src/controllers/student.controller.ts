@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth.js';
 import prisma from '../utils/prisma.js';
 import { calculateRisk, calculateOverallWellnessScore } from '../services/risk.service.js';
+import { sendRealEmail } from '../services/email.service.js';
 
 export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -124,6 +125,17 @@ export const submitSurvey = async (req: AuthRequest, res: Response): Promise<voi
       if (notifications.length > 0) {
         await (prisma as any).systemNotification.createMany({
           data: notifications
+        });
+
+        // Send real email to each targeted faculty
+        const emailSubject = `URGENT: High Risk Alert for Student ${student?.name || 'Unknown'}`;
+        const emailText = `A student has submitted a wellness survey indicating a critical risk score (${riskScore}).\n\nStudent Details:\nName: ${student?.name || 'Unknown'}\nEmail: ${student?.email}\n\nPlease log into the WellZen system immediately to review and perform an urgent check-in with the student.\n\n- WellZen System`;
+
+        targetFaculty.forEach(faculty => {
+          if (faculty.email) {
+            sendRealEmail(faculty.email, emailSubject, emailText)
+              .catch(err => console.error("Failed to send risk alert email to", faculty.email, err));
+          }
         });
       }
     }

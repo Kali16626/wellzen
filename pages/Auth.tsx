@@ -232,7 +232,7 @@ const Auth: React.FC = () => {
             }
 
             // Backend returns { token, user: { id, name, role } }
-            localStorage.setItem('wellnex_token', data.token);
+            localStorage.setItem('wellzen_token', data.token);
             setCurrentUser(data.user);
 
             setSuccess(`Welcome back, ${data.user.name}! Redirecting...`);

@@ -49,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, userName }) => {
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
-  const LOGO_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI0UwRTdGRiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTUwIDE1IEM1MCAxNSA4NSA0MCA4NSA2NSBDODUgOTAgNjAgOTUgNTAgOTUgQzQwIDk1IDE1IDkwIDE1IDY1IEMxNSA0MCA1MCAxNSA1MCAxNSBaIiBmaWxsPSIjZWNmZGY1Ii8+CiAgPHBhdGggZD0iTTUwIDIwIEM1MCAyMCA4MCA0NSA4MCA2NSBDODAgODUgNjAgOTUgNTAgOTUgQzNDIDk1IDIwIDg1IDIwIDY1IEMyMCA0NSA1MCAyMCA1MCAyMCBaIiBmaWxsPSJub25lIiBzdHJva2U9IiMxMGI5ODEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI0NSIgcj0iOSIgZmlsbD0iIzQzMzhjYSIvPgogIDxwYXRoIGQ9Ik0zMyA4MCBDMzMgNjUgNDIgNTggNTAgNTggQzU4IDU4IDY3IDY1IDY3IDgwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MzM4Y2EiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPg==";
+  const LOGO_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0icHJpbWFyeSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZjQ2ZTUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2E4NTVmNyIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjZTBlN2ZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNIDUwIDIwIEMgMzUgMjAsIDI4IDM1LCAzMyA0OCBDIDM2IDU1LCA0MCA2MCwgNDIgNjggSCA1OCBDIDYwIDYwLCA2NCA1NSwgNjcgNDggQyA3MiAzNSwgNjUgMjAsIDUwIDIwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNwcmltYXJ5KSIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8cGF0aCBkPSJNIDQzIDcyIEggNTcgTSA0NSA3NyBIIDU1IiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjcHJpbWFyeSkiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTSAzOCA0MCBRIDQ0IDMwIDUwIDQwIFQgNjIgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y1OWUwYiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNIDQwIDQ4IFEgNDUgNDAgNTAgNDggVCA2MCA0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTgiIHI9IjIiIGZpbGw9IiNmNTllMGIiIC8+Cjwvc3ZnPg==";
 
   const handleLogout = () => {
     logout();
@@ -201,9 +201,9 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, userName }) => {
             <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => navigate('/')}>
                 <div className="relative">
                     <div className="absolute inset-0 bg-primary-400 rounded-full blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-                    <img src={LOGO_SRC} alt="WellNex Logo" className="w-12 h-12 object-contain relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 bg-white rounded-full p-0.5" />
+                    <img src={LOGO_SRC} alt="WellZen Logo" className="w-12 h-12 object-contain relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 bg-white rounded-full p-0.5" />
                 </div>
-                <h1 className="text-2xl font-extrabold text-surface-900 tracking-tight">Well<span className="text-primary-600">Nex</span></h1>
+                <h1 className="text-2xl font-extrabold text-surface-900 tracking-tight">Well<span className="text-primary-600">Zen</span></h1>
             </div>
             
             <button

@@ -28,7 +28,7 @@ export const sendRealEmail = async (to: string, subject: string, text: string, h
     }
 
     const info = await activeTransporter.sendMail({
-      from: `"WellNex System" <${process.env.EMAIL_USER}>`,
+      from: `"WellZen System" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,

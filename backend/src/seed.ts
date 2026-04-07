@@ -10,11 +10,11 @@ async function main() {
 
   // Seed a Super Admin if not exists
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@wellnex.edu' },
+    where: { email: 'admin@wellzen.edu' },
     update: {},
     create: {
       name: 'System Administrator',
-      email: 'admin@wellnex.edu',
+      email: 'admin@wellzen.edu',
       password: password,
       role: 'ADMIN',
     },
@@ -22,11 +22,11 @@ async function main() {
 
   // Seed a Faculty member
   const faculty = await prisma.user.upsert({
-    where: { email: 'faculty@wellnex.edu' },
+    where: { email: 'faculty@wellzen.edu' },
     update: {},
     create: {
       name: 'Prof. Sarah Jenkins',
-      email: 'faculty@wellnex.edu',
+      email: 'faculty@wellzen.edu',
       password: password,
       role: 'FACULTY',
       department: 'Computer Science'
@@ -35,11 +35,11 @@ async function main() {
   
   // Seed a Counselor
   const counselor = await prisma.user.upsert({
-    where: { email: 'counselor@wellnex.edu' },
+    where: { email: 'counselor@wellzen.edu' },
     update: {},
     create: {
       name: 'Dr. Michael Chen',
-      email: 'counselor@wellnex.edu',
+      email: 'counselor@wellzen.edu',
       password: password,
       role: 'COUNSELOR',
     },
