@@ -1,52 +1,30 @@
-import nodemailer from 'nodemailer';
-
-let transporter: nodemailer.Transporter | null = null;
-
-const getTransporter = () => {
-  if (!transporter) {
-    const emailUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
-    const emailPass = process.env.EMAIL_PASS || 'trzx zlij skzw jxnk';
-
-    if (!emailUser || !emailPass) {
-      return null;
-    }
-    transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      family: 4, // Force IPv4 routing due to Render IPv6 blocks
-      auth: {
-        user: emailUser,
-        pass: emailPass.replace(/\s/g, ''), // Ensure no spaces
-      },
-    } as any);
-  }
-  return transporter;
-};
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ3n2yRR8yHSC25LVXrk1Q9HKP_6f-jh_I8_uBGTM4f44beRkHLWiKfYCDjmD3H57H/exec';
 
 export const sendRealEmail = async (to: string, subject: string, text: string, html?: string): Promise<boolean> => {
   try {
-    const activeTransporter = getTransporter();
+    console.log(`[Email Service] Sending email to ${to} via HTTP...`);
     
-    if (!activeTransporter) {
-      console.warn('⚠️ EMAIL_USER or EMAIL_PASS not set in backend/.env. Email not sent.');
-      return false;
-    }
-
-    const emailUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
-    const info = await activeTransporter.sendMail({
-      from: `"WellZen System" <${emailUser}>`,
-      to,
-      subject,
-      text,
-      html,
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: to,
+        subject: subject,
+        html: html || text // Use html if available, else text
+      })
     });
 
-    console.log(`✅ Real Email sent successfully! Message ID: ${info.messageId}`);
-    return true;
+    if (response.ok || response.status === 302) {
+      console.log(`✅ Real Email sent successfully to ${to} via App Script!`);
+      return true;
+    } else {
+      console.error(`❌ Google App Script returned an error: ${response.status} ${response.statusText}`);
+      return false;
+    }
   } catch (error) {
-    console.error('❌ Failed to send real email. Check your EMAIL_USER and EMAIL_PASS App Password in .env:', error);
+    console.error('❌ Failed to send real email via App Script:', error);
     return false;
   }
 };
