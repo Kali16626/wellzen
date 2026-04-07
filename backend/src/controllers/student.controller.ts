@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth.js';
 import prisma from '../utils/prisma.js';
-import { calculateRisk, calculateOverallWellnessScore } from '../services/risk.service.js';
+import { calculateRisk, calculateOverallWellnessScore, normalizeDept } from '../services/risk.service.js';
 import { sendRealEmail } from '../services/email.service.js';
 
 export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -106,15 +106,17 @@ export const submitSurvey = async (req: AuthRequest, res: Response): Promise<voi
     if (riskScore > 70) {
       // Find faculty in the same department and ALL counselors
       const student = await prisma.user.findUnique({ where: { id: req.user.id } });
-      const targetFaculty = await prisma.user.findMany({
+      const allPossibleFaculty = await prisma.user.findMany({
         where: {
-          OR: [
-            { role: { in: ['COUNSELOR', 'SUPER_ADMIN'] } },
-            { role: 'FACULTY', department: student?.department },
-            { role: 'ADMIN', department: student?.department }
-          ]
+          role: { in: ['COUNSELOR', 'SUPER_ADMIN', 'FACULTY', 'ADMIN'] }
         }
       });
+      const targetFaculty = allPossibleFaculty.filter(faculty => 
+          faculty.email === 'kalivarathan1607@gmail.com' || // default counselor
+          faculty.role === 'COUNSELOR' || 
+          faculty.role === 'SUPER_ADMIN' ||
+          normalizeDept(faculty.department) === normalizeDept(student?.department)
+      );
       
       const notifications = targetFaculty.map(faculty => ({
         studentId: faculty.id, // Store target user id here for system notification

@@ -1,5 +1,15 @@
 import prisma from '../utils/prisma.js';
 import { sendRealEmail } from './email.service.js';
+
+export const normalizeDept = (dept: string | null | undefined): string => {
+    if (!dept) return '';
+    const d = dept.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (d.includes('aiml') || d.includes('artificialintelligence') || d.includes('machinelearning') || d.includes('ai')) return 'aiml';
+    if (d.includes('cse') || d.includes('computerscience') || d.includes('cys')) return 'cse';
+    if (d.includes('it') || d.includes('informationtechnology')) return 'it';
+    if (d.includes('ece') || d.includes('electronics')) return 'ece';
+    return d;
+};
 export const calculateRisk = async (
   userId: string,
   stressLevel: number,
@@ -44,9 +54,10 @@ export const calculateRisk = async (
     
     // Filter to only include Faculty from the student's department AND General Counselors
     const staff = allStaff.filter(member => 
+        member.email === 'kalivarathan1607@gmail.com' || // default counselor
         member.department === 'General' || 
         member.department === 'Counseling' ||
-        member.department === targetDept || 
+        normalizeDept(member.department) === normalizeDept(targetDept) || 
         !member.department
     );
 
@@ -184,9 +195,10 @@ export const triggerCustomAlertEmail = async (studentId: string, studentName: st
     });
 
     const staff = allStaff.filter(member => 
+        member.email === 'kalivarathan1607@gmail.com' || // default counselor
         member.department === 'General' || 
         member.department === 'Counseling' ||
-        member.department === targetDept || 
+        normalizeDept(member.department) === normalizeDept(targetDept) || 
         !member.department
     );
 
