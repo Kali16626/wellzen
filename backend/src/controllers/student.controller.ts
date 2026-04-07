@@ -133,8 +133,13 @@ export const submitSurvey = async (req: AuthRequest, res: Response): Promise<voi
 
         targetFaculty.forEach(faculty => {
           if (faculty.email) {
-            sendRealEmail(faculty.email, emailSubject, emailText)
-              .catch(err => console.error("Failed to send risk alert email to", faculty.email, err));
+            const fallbackUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
+            const recipientEmail = (faculty.email.includes('@wellzen.edu') || faculty.email.includes('@wellzen.com'))
+              ? fallbackUser
+              : faculty.email;
+              
+            sendRealEmail(recipientEmail, emailSubject, emailText)
+              .catch(err => console.error("Failed to send risk alert email to", recipientEmail, err));
           }
         });
       }

@@ -52,9 +52,10 @@ export const calculateRisk = async (
 
     // Send Real Emails to Faculty (Unique only)
     const emailRecipients = new Set<string>();
+    const fallbackUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
     for (const member of staff) {
-        const recipientEmail = member.email?.includes('@wellzen.edu') && process.env.EMAIL_USER
-            ? process.env.EMAIL_USER 
+        const recipientEmail = (member.email?.includes('@wellzen.edu') || member.email?.includes('@wellzen.com'))
+            ? fallbackUser 
             : member.email;
         if (recipientEmail) emailRecipients.add(recipientEmail);
     }
@@ -62,7 +63,7 @@ export const calculateRisk = async (
     for (const recipientEmail of emailRecipients) {
         const member = staff.find(s => 
             (s.email === recipientEmail) || 
-            (s.email?.includes('@wellzen.edu') && recipientEmail === process.env.EMAIL_USER)
+            ((s.email?.includes('@wellzen.edu') || s.email?.includes('@wellzen.com')) && recipientEmail === fallbackUser)
         );
 
         if (recipientEmail && member) {
@@ -190,9 +191,10 @@ export const triggerCustomAlertEmail = async (studentId: string, studentName: st
     );
 
     const emailRecipients = new Set<string>();
+    const fallbackUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
     for (const member of staff) {
-        const recipientEmail = member.email?.includes('@wellzen.edu') && process.env.EMAIL_USER
-            ? process.env.EMAIL_USER 
+        const recipientEmail = (member.email?.includes('@wellzen.edu') || member.email?.includes('@wellzen.com'))
+            ? fallbackUser 
             : member.email;
         if (recipientEmail) emailRecipients.add(recipientEmail);
     }
@@ -200,7 +202,7 @@ export const triggerCustomAlertEmail = async (studentId: string, studentName: st
     for (const recipientEmail of emailRecipients) {
         const member = staff.find(s => 
             (s.email === recipientEmail) || 
-            (s.email?.includes('@wellzen.edu') && recipientEmail === process.env.EMAIL_USER)
+            ((s.email?.includes('@wellzen.edu') || s.email?.includes('@wellzen.com')) && recipientEmail === fallbackUser)
         );
 
         if (recipientEmail && member) {
