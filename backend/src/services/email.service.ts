@@ -4,14 +4,17 @@ let transporter: nodemailer.Transporter | null = null;
 
 const getTransporter = () => {
   if (!transporter) {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    const emailUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
+    const emailPass = process.env.EMAIL_PASS || 'trzx zlij skzw jxnk';
+
+    if (!emailUser || !emailPass) {
       return null;
     }
     transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS.replace(/\s/g, ''), // Ensure no spaces
+        user: emailUser,
+        pass: emailPass.replace(/\s/g, ''), // Ensure no spaces
       },
     });
   }
@@ -27,8 +30,9 @@ export const sendRealEmail = async (to: string, subject: string, text: string, h
       return false;
     }
 
+    const emailUser = process.env.EMAIL_USER || 'admin.wellzen@gmail.com';
     const info = await activeTransporter.sendMail({
-      from: `"WellZen System" <${process.env.EMAIL_USER}>`,
+      from: `"WellZen System" <${emailUser}>`,
       to,
       subject,
       text,
