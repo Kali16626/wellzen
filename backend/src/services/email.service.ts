@@ -14,11 +14,12 @@ const getTransporter = () => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
+      family: 4, // Force IPv4 routing due to Render IPv6 blocks
       auth: {
         user: emailUser,
         pass: emailPass.replace(/\s/g, ''), // Ensure no spaces
       },
-    });
+    } as any);
   }
   return transporter;
 };
